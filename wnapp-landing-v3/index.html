@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>WN – Want/Need • Sua lista inteligente de presentes</title>
+  <meta name="description" content="WN – Want/Need: crie listas de presentes inteligentes, compartilhe com amigos e família, receba o que você realmente quer ou precisa." />
+  <link rel="icon" href="/assets/favicon.svg" />
+  <link rel="apple-touch-icon" href="/assets/favicon.png" />
+</head>
+<body>
+  <h1>WN – Want/Need</h1>
+  <p>Sua lista inteligente de presentes</p>
+  <form id="subscribeForm">
+    <input type="email" name="email" id="email" required placeholder="Seu e‑mail" />
+    <button type="submit">Quero ser avisado</button>
+    <div id="formHint">Sem spam. Cancelar a qualquer momento.</div>
+  </form>
+  <footer>
+    <p>Contato: <a href="mailto:contato@wnapp.com.br">contato@wnapp.com.br</a> · <a href="/privacy.html">Privacidade</a> · <a href="/terms.html">Termos</a></p>
+  </footer>
+<script>
+const FORMSPREE_ID = 'wnapp';
+const form = document.getElementById('subscribeForm');
+const emailInput = document.getElementById('email');
+const hint = document.getElementById('formHint');
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const email = emailInput.value.trim();
+  try {
+    const res = await fetch('https://formspree.io/f/'+FORMSPREE_ID, {
+      method: 'POST',
+      headers: {'Accept':'application/json','Content-Type':'application/json'},
+      body: JSON.stringify({email})
+    });
+    if(res.ok) {
+      hint.textContent = 'Tudo certo! Você entrou na lista.';
+    } else throw new Error();
+  } catch(err) {
+    hint.textContent = 'Erro ao enviar. Tente novamente.';
+  }
+});
+</script>
+</body>
+</html>
